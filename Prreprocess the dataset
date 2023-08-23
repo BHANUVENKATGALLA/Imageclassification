@@ -1,0 +1,30 @@
+#Preprocess the Dataset
+import torchvision.datasets as datasets
+from torchvision import transforms
+import matplotlib.pyplot as plt
+
+# Preprocess,normalize
+transform = transforms.Compose([
+    transforms.Resize((64, 64)),  # Resize  a fixed size
+    transforms.ToTensor(),        # Convert  tensor
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Normalize pixel values
+])
+
+# Load CIFAR-10 train and test datasets
+train_dataset = datasets.CIFAR10(root='data/', train=True, transform=transform, download=True)
+test_dataset = datasets.CIFAR10(root='data/', train=False, transform=transform, download=True)
+
+# Print dataset sizes
+print("Train dataset size:", len(train_dataset))
+print("Test dataset size:", len(test_dataset))
+
+# Access and visualize a sample image from the train dataset
+sample_image, sample_label = train_dataset[0]
+sample_image = sample_image.permute(1, 2, 0)  # Change tensor shape for visualization
+
+# Denormalize the image for visualization
+sample_image = 0.5 * sample_image + 0.5
+
+plt.imshow(sample_image)
+plt.title(f"Sample Label: {sample_label}")
+plt.show()
