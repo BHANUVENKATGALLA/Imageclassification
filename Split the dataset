@@ -1,0 +1,9 @@
+#Split the Dataset
+import tensorflow as tf
+from tensorflow.keras.datasets import cifar10
+
+# Load CIFAR-10 dataset as an example
+(X_train, y_train), (X_test, y_test) = cifar10.load_data()
+
+# Define X_train and y_train before using train_test_split
+X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=42)
