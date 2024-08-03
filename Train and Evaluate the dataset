@@ -7,19 +7,19 @@ from sklearn.model_selection import train_test_split  # Import train_test_split 
 X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=42)
 
 model = tf.keras.Sequential([
-    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)),
-    tf.keras.layers.MaxPooling2D((2, 2)),
+    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)),#extract the features
+    tf.keras.layers.MaxPooling2D((2, 2)),#Reduce spatial dimensions (2x2 pooling
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D((2, 2)),
     tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D((2, 2)),
-    tf.keras.layers.Flatten(),
+    tf.keras.layers.Flatten(),#Convert 2D features to 1D.
     tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.Dense(10, activation='softmax')
 ])
 
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-# Train the model
+# Train the model (efficient training)
 history = model.fit(X_train, y_train, epochs=3, validation_data=(X_val, y_val))
 
 # Evaluate the model on the test dataset
